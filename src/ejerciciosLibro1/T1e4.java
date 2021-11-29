@@ -13,9 +13,9 @@ public class T1e4 {
 		
 		System.out.println("Dime en que año estamos");
 		
-		int año = sc.nextInt();
+		int ano = sc.nextInt();
 		
-		int a = año - nacim;
+		int a = ano - nacim;
 		
 		System.out.println("Tienes " + a + " años");
 		
