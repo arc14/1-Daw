@@ -8,7 +8,7 @@ public class T2e14f {
 		
 		Scanner sc = new Scanner(System.in);
 		
-		System.out.println("Dame un número entre 1 y 99, y te lo doy en letras");
+		System.out.println("Dame un numero entre 1 y 99, y te lo doy en letras");
 		int num = sc.nextInt();
 		int uni = num % 10;
 		int dec = (int) num / 10;
