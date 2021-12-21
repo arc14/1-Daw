@@ -11,8 +11,16 @@ public class MonedaDado {
 
 		int contador = 0;
 		int p1 = preguntaObjeto(sc);
+		String p2 = preguntaAcierto(p1, sc);
+		int lanz = numLanzamientos(sc);
 		
-		if (p1 ==  ) {
+		
+		
+		
+		
+		if (p1 == 1) {
+			
+			//moneda(lanz, sc, contador);
 			
 		} else {
 			
@@ -104,4 +112,7 @@ public class MonedaDado {
 		}
 		System.out.println("Has acertado: " + cont + " veces");
 	}
+	
+	
+	
 }
