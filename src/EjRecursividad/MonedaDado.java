@@ -146,4 +146,7 @@ public class MonedaDado {
 		}
 		System.out.println("Tu numero ha salido: " + cont + " veces");
 	}
+	
+	
+	
 }
