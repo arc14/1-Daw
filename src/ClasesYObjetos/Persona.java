@@ -8,6 +8,20 @@ public class Persona {
 	
 	private double estatura;
 	
+	//Contructuros a la hora de llamar a la clase
+	
+	public Persona(String nombre, int edad, double estatura) throws Exception{
+		setNombre(nombre);
+		setEdad(edad);
+		setEstatura(estatura);
+	}
+
+	public Persona() {
+		nombre = "Sin nombre";
+		edad = 0;
+		estatura = 0;
+	}
+
 	public void setNombre (String nombre) {
 		this.nombre = nombre;
 	}
@@ -37,8 +51,14 @@ public class Persona {
 		}
 	}
 	
-	@Override
-	public String toString() {
+	public double getEstatura() {
+		return estatura;
+	}
+	
+	//@Override
+	//ponemos override para sobreescribir un metodo que ya exista
+	//por ejemplo si en vez de mostrarDatos se llamara toString (que ya existe).
+	public String mostrarDatos() {
 		return "Persona [nombre= " + nombre + ", edad= " + edad + ", estatura= " + estatura + "]";
 	}
 	
