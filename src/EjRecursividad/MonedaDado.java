@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 /**
  * 
- * @author AsEh
+ * @author Alejandro Romero
  *
  * programa que pregunta que objeto, dado o moneda quieres lanzar, 
  * cuantas veces y pregunta en cada caso que resultado va a repetirse más veces 
