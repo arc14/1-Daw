@@ -1,4 +1,4 @@
-package boletinUD04;
+package ejercicioSuelto;
 
 public class marcaCasa {
 
