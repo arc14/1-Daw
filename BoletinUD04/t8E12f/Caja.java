@@ -24,9 +24,9 @@ public class Caja {
 			return res;
 		}
 	}
-	
+
 	public void setEtiqueta(String etiqueta) {
-		
+
 		if (etiqueta.length() < 31) {
 			this.etiqueta = etiqueta;
 		} else {
@@ -39,7 +39,4 @@ public class Caja {
 		return "Caja [ancho=" + ancho + ", alto=" + alto + ", fondo=" + fondo + ", etiqueta=" + etiqueta + ", unidad="
 				+ unidad + "]";
 	}
-	
-	
-
 }
