@@ -1,11 +1,12 @@
 package t8E22f;
 
-import java.lang.*;
+//import java.lang.*;
 
 public class ObjetoFinalize {
 	
 	// No sé si es esto lo que se pide
 	
+	@SuppressWarnings("deprecation")
 	protected void finalize() throws Throwable {
 		
 		try {
