@@ -2,9 +2,11 @@ package t8E12f;
 
 public class Caja {
 
-	private int ancho, alto, fondo;
-	private String etiqueta;
-	private String unidad;
+	protected int ancho;
+	protected int alto;
+	protected int fondo;
+	protected String etiqueta;
+	protected String unidad;
 
 	public Caja(int ancho, int alto, int fondo, Unidad unidad) {
 		this.ancho = ancho;
@@ -17,8 +19,8 @@ public class Caja {
 
 		double res = ancho * alto * fondo;
 
-		if (unidad == "cm") {
-			res = res * 100;
+		if (unidad.equals("cm")) {
+			res = res / 100;
 			return res;
 		} else {
 			return res;
