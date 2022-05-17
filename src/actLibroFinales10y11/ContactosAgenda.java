@@ -26,7 +26,7 @@ public class ContactosAgenda {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			try {
-				documento = builder.parse(new File("src/ficheros/agenda.xml"));
+				documento = builder.parse(new File("src/actLibroFinales10y11/agenda.xml"));
 			} catch (SAXException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -59,10 +59,30 @@ public class ContactosAgenda {
 
 			switch (menu) {
 			case 1:
-
+				//añadir
+				
+				System.out.println("Dime el nombre");
+				String name = sc.nextLine();
+				System.out.println("Dime el telefono");
+				Long tlfn = sc.nextLong();
+				
+				Node newNode = (Node) obtenerHijo(documento);
+				
+				Element element = documento.getDocumentElement();
+				
+				element.setAttribute("Nombre", name);
+				element.setAttribute("Telefono", Long.toString(tlfn));
+				
+				element.insertBefore(newNode, null);
+				
+				
+				
+				
 				break;
 
 			case 2:
+				
+				//listar por busqueda
 				
 				System.out.println("¿Terminos de la busqueda? :");
 				String prefix = sc.nextLine().toLowerCase();
@@ -74,8 +94,6 @@ public class ContactosAgenda {
 							System.out.print(hijo.getNodeName() + ": " + hijo.getTextContent() + "  ");
 						}
 						
-						
-						
 					}
 
 				}
@@ -86,6 +104,9 @@ public class ContactosAgenda {
 				break;
 
 			case 3:
+				
+				//listar todos los contactos
+				
 				System.out.println("Listado:");
 
 				// Recorro sus hijos
