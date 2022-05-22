@@ -220,6 +220,8 @@ public class GestorAlumnos {
 
 					DefaultTableModel model = (DefaultTableModel) table_1.getModel();
 
+					model.setRowCount(0);
+					
 					while (rs.next()) {
 
 						Object[] ob = { rs.getInt("ID"), rs.getString("Nombre"), rs.getInt("Curso") };
