@@ -24,16 +24,28 @@ import java.awt.Font;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import java.awt.Window.Type;
+import java.awt.SystemColor;
 
 public class GestorAlumnos {
 
 	private JFrame frmGestorAlumnos;
 	private JTextField nombre;
-	private JTextField grupo;
+	private JTextField curso;
 	private JTextField textList;
+	private JTextField textMod;
 	private JTable table;
 	private JTable table_1;
+	private JTextField nomField;
+	private JTextField cursoField;
+	
+	private int IDstorage;
+	
+	private JTextField textField;
+	private JTextField textRmvNom;
+	private JTextField textRmvGrp;
 
+	private int IDremove;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -85,14 +97,14 @@ public class GestorAlumnos {
 		lblIntroduceUnAlumno.setBounds(10, 23, 422, 15);
 		insert.add(lblIntroduceUnAlumno);
 
-		JLabel lblGrupo = new JLabel("Grupo:");
-		lblGrupo.setBounds(258, 62, 70, 15);
-		insert.add(lblGrupo);
+		JLabel lblCurso = new JLabel("Curso:");
+		lblCurso.setBounds(258, 62, 70, 15);
+		insert.add(lblCurso);
 
-		grupo = new JTextField();
-		grupo.setBounds(258, 85, 114, 25);
-		insert.add(grupo);
-		grupo.setColumns(10);
+		curso = new JTextField();
+		curso.setBounds(258, 85, 114, 25);
+		insert.add(curso);
+		curso.setColumns(10);
 
 		JLabel lblNombre = new JLabel("Nombre:");
 		lblNombre.setBounds(64, 60, 70, 15);
@@ -121,7 +133,7 @@ public class GestorAlumnos {
 
 					pst.setString(1, "0");
 					pst.setString(2, nombre.getText());
-					pst.setString(3, grupo.getText());
+					pst.setString(3, curso.getText());
 
 					pst.executeUpdate();
 
@@ -185,7 +197,8 @@ public class GestorAlumnos {
 					ResultSet rs = pst.executeQuery();
 
 					DefaultTableModel model = (DefaultTableModel) table_1.getModel();
-
+					model.setRowCount(0);
+					
 					while (rs.next()) {
 
 						Object[] ob = { rs.getInt("ID"), rs.getString("Nombre"), rs.getInt("Curso") };
@@ -219,8 +232,8 @@ public class GestorAlumnos {
 					ResultSet rs = pst.executeQuery();
 
 					DefaultTableModel model = (DefaultTableModel) table_1.getModel();
-
 					model.setRowCount(0);
+
 					
 					while (rs.next()) {
 
@@ -245,6 +258,196 @@ public class GestorAlumnos {
 
 		JPanel mod = new JPanel();
 		tabbedPane.addTab("Modificar", null, mod, null);
+		mod.setLayout(null);
+
+		JLabel check_Mod = new JLabel("");
+		check_Mod.setHorizontalAlignment(SwingConstants.CENTER);
+		check_Mod.setForeground(Color.RED);
+		check_Mod.setBounds(72, 254, 281, 15);
+		mod.add(check_Mod);
+		
+		textMod = new JTextField();
+		textMod.setText("");
+		textMod.setBounds(91, 80, 105, 27);
+		mod.add(textMod);
+		textMod.setColumns(10);
+
+		JLabel lblModAlumnos = new JLabel("Modificar Alumno");
+		lblModAlumnos.setHorizontalAlignment(SwingConstants.CENTER);
+		lblModAlumnos.setFont(new Font("Dialog", Font.BOLD, 16));
+		lblModAlumnos.setBounds(142, 29, 132, 21);
+		mod.add(lblModAlumnos);
+
+		JButton btnListMod = new JButton("Buscar por ID");
+		btnListMod.setBounds(221, 79, 114, 28);
+		mod.add(btnListMod);
+		
+		nomField = new JTextField();
+		nomField.setBounds(91, 154, 105, 27);
+		mod.add(nomField);
+		nomField.setColumns(10);
+		
+		cursoField = new JTextField();
+		cursoField.setBounds(220, 154, 115, 27);
+		mod.add(cursoField);
+		cursoField.setColumns(10);
+		
+		JLabel lblNombre_1 = new JLabel("Nombre:");
+		lblNombre_1.setBounds(91, 129, 70, 15);
+		mod.add(lblNombre_1);
+		
+		JLabel lblCurso_1 = new JLabel("Grupo:");
+		lblCurso_1.setBounds(221, 129, 70, 15);
+		mod.add(lblCurso_1);
+		
+		JButton btnUpdate = new JButton("Modificar");
+		btnUpdate.setBounds(156, 193, 105, 27);
+		mod.add(btnUpdate);
+		
+		btnListMod.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Connection cn = DriverManager.getConnection("jdbc:mysql://localhost:3306/Alumno", "root", "");
+					PreparedStatement pst = cn.prepareStatement("select * from Alumnos where ID=?");
+
+					IDstorage = Integer.parseInt(textMod.getText());
+					pst.setInt(1, IDstorage);
+					ResultSet rs = pst.executeQuery();
+
+					while (rs.next()) {
+						
+						nomField.setText(rs.getString("Nombre"));
+						cursoField.setText(rs.getString("Curso"));
+					}
+					
+					cn.close();
+
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+					check_Mod.setText("El termino de busqueda no es correcto para ese campo");
+
+				}
+			}
+		});
+		
+		btnUpdate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				try {
+					Connection cn = DriverManager.getConnection("jdbc:mysql://localhost:3306/Alumno", "root", "");
+					PreparedStatement pst = cn.prepareStatement("UPDATE Alumnos SET Nombre=?, Curso=? where ID=?");
+					
+					pst.setString(1, nomField.getText());
+					pst.setInt(2, Integer.parseInt(cursoField.getText()));
+					pst.setInt(3, IDstorage);
+					
+					pst.executeUpdate();
+					
+					check_Mod.setText("Modificacion correcta");
+					
+					cn.close();
+
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+					check_Mod.setText("El termino de busqueda no es correcto para ese campo");
+				}
+			}
+		});
+		
+		//eliminar
+		
+		btnUpdate.setForeground(SystemColor.desktop);
+		
+		JPanel remove = new JPanel();
+		remove.setLayout(null);
+		tabbedPane.addTab("Eliminar", null, remove, null);
+		
+		textField = new JTextField();
+		textField.setText("");
+		textField.setColumns(10);
+		textField.setBounds(73, 41, 123, 27);
+		remove.add(textField);
+		
+		JLabel check_Rvm = new JLabel("");
+		check_Rvm.setHorizontalAlignment(SwingConstants.CENTER);
+		check_Rvm.setForeground(Color.RED);
+		check_Rvm.setBounds(78, 269, 281, 15);
+		remove.add(check_Rvm);
+		
+		JLabel lblEliminar = new JLabel("Eliminar Alumno");
+		lblEliminar.setHorizontalAlignment(SwingConstants.CENTER);
+		lblEliminar.setFont(new Font("Dialog", Font.BOLD, 16));
+		lblEliminar.setBounds(78, 12, 281, 15);
+		remove.add(lblEliminar);
+		
+		JLabel lblNombreRvm = new JLabel("Nombre:");
+		lblNombreRvm.setBounds(97, 105, 70, 15);
+		remove.add(lblNombreRvm);
+		
+		JLabel lblCursoRvm = new JLabel("Grupo:");
+		lblCursoRvm.setBounds(227, 105, 70, 15);
+		remove.add(lblCursoRvm);
+		
+		textRmvNom = new JTextField();
+		textRmvNom.setEditable(false);
+		textRmvNom.setColumns(10);
+		textRmvNom.setBounds(97, 130, 105, 27);
+		remove.add(textRmvNom);
+		
+		textRmvGrp = new JTextField();
+		textRmvGrp.setEditable(false);
+		textRmvGrp.setColumns(10);
+		textRmvGrp.setBounds(226, 130, 115, 27);
+		remove.add(textRmvGrp);
+		
+		JLabel check_RvmConfirm = new JLabel("¿Estás seguro?");
+		check_RvmConfirm.setHorizontalAlignment(SwingConstants.CENTER);
+		check_RvmConfirm.setForeground(Color.RED);
+		check_RvmConfirm.setBounds(78, 175, 281, 15);
+		remove.add(check_RvmConfirm);
+		
+		JButton btnIDRvm = new JButton("ID");
+		btnIDRvm.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Connection cn = DriverManager.getConnection("jdbc:mysql://localhost:3306/Alumno", "root", "");
+					PreparedStatement pst = cn.prepareStatement("select * from Alumnos where ID=?");
+
+					IDstorage = Integer.parseInt(textMod.getText());
+					pst.setInt(1, IDstorage);
+					ResultSet rs = pst.executeQuery();
+
+					while (rs.next()) {
+						
+						nomField.setText(rs.getString("Nombre"));
+						cursoField.setText(rs.getString("Curso"));
+					}
+					
+					cn.close();
+
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+					check_Mod.setText("El termino de busqueda no es correcto para ese campo");
+
+				}
+			}
+		});
+		btnIDRvm.setBounds(236, 42, 123, 26);
+		remove.add(btnIDRvm);
+		
+		JButton btnRvmConfirm = new JButton("Eliminar Definitivamente");
+		btnRvmConfirm.setVisible(false);
+		btnRvmConfirm.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		btnRvmConfirm.setBounds(148, 200, 149, 26);
+		remove.add(btnRvmConfirm);
+		
+		
+		
+		
 	}
 }
 
